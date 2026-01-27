@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Background Remover</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Space+Grotesk:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Background Remover</h1>
+      <p>Remove backgrounds instantly</p>
+    </div>
+
+    <div class="card">
+      <form id="upload-form">
+        <div class="upload-area" id="upload-area">
+          <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp" />
+          <div class="upload-icon">📸</div>
+          <div class="upload-text" id="upload-text">Choose an Image</div>
+          <div class="upload-hint">PNG, JPG, or WEBP</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit-btn" style="margin-top: 16px;">
+          Remove Background
+        </button>
+      </form>
+    </div>
+
+    <div class="status info" id="status">Ready to process your image</div>
+
+    <div class="card">
+      <div class="preview-container">
+        <div class="preview-wrapper">
+          <img id="original-image" class="preview-image" alt="Original" style="clip-path: inset(0 0 0 0);" />
+          <img id="processed-image" class="preview-image" alt="Processed" />
+          <div class="preview-placeholder" id="preview-placeholder">
+            No image selected
+          </div>
+        </div>
+      </div>
+
+      <div class="slider-container hidden" id="slider-container">
+        <input type="range" min="0" max="100" value="100" class="slider" id="comparison-slider" />
+        <div class="slider-labels">
+          <span>Original</span>
+          <span>Processed</span>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary hidden" id="download-btn">
+        Download PNG
+      </button>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <p>Project by <a href="https://spruceemmanuel.com" target="_blank" rel="noopener noreferrer">Spruce Emmanuel</a>
+      </p>
+      <div class="footer-links">
+
+        <a href="https://github.com/iamspruce/bg-remover" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
