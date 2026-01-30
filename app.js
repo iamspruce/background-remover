@@ -1,4 +1,5 @@
-const API_BASE_URL = "https://background-remover-2drr.onrender.com";
+const API_BASE_URL =
+  "https://background-remover-127860840211.europe-west1.run.app";
 
 // DOM Elements
 const elements = {
