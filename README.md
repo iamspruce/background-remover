@@ -1,63 +1,81 @@
 # Background Remover (FastAPI + rembg)
 
-Simple, production-shaped background removal app:
-
-- `api/` is a FastAPI service ready for Cloud Run.
-- `web/` is static HTML/CSS/JS for GitHub Pages.
+Simple image background remover with:
+- A FastAPI backend (`backend/`)
+- A static frontend (`index.html`, `styles.css`, `app.js`)
 
 ## Project structure
 
-```
+```text
 bg-remover/
-  api/
-    app/
+  backend/
+    api/
       main.py
+      __init__.py
     requirements.txt
     Dockerfile
-    .dockerignore
-  web/
-    index.html
-    styles.css
-    app.js
+    __init__.py
+  index.html
+  styles.css
+  app.js
   README.md
   .gitignore
 ```
 
-## Backend (local dev)
+## Local setup
+
+### 1) Start the backend
 
 ```bash
-cd api
+cd backend
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-uvicorn app.main:app --reload
+uvicorn api.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Health check: `http://localhost:8000/health`
 
-### Environment variables
+### 2) Start the frontend
 
-- `CORS_ORIGINS`: comma-separated list of allowed origins.
-  - Example: `CORS_ORIGINS="http://localhost:5500,https://<your-user>.github.io/<repo>"`
-- `MAX_UPLOAD_MB`: max file size in MB (default: `16`).
-- `MAX_DIMENSION`: max width/height before downscaling (default: `2000`).
+From the project root:
 
-### API endpoints
+```bash
+python -m http.server 9001
+```
 
-- `GET /health` → `{ "ok": true }`
-- `POST /remove-bg` (multipart `file`) → `image/png`
+Then open `http://localhost:9001`.
 
-## Frontend
+## Start commands (quick reference)
 
-Open `web/index.html` with a local static server (VS Code Live Server, `python -m http.server`, etc.).
+- Backend start command:
+  `uvicorn api.main:app --reload --host 0.0.0.0 --port 8000` (run inside `backend/`)
+- Frontend start command:
+  `python -m http.server 9001` (run inside project root)
 
-Set the API URL in `web/app.js`:
+## Frontend API URL
+
+Set the backend URL in `app.js`:
 
 ```js
-const API_BASE_URL = "http://localhost:8000"; // replace with your production URL
+const API_BASE_URL = "http://localhost:8000";
 ```
+
+For production, replace it with your deployed backend URL.
+
+## Environment variables
+
+- `CORS_ORIGINS`: comma-separated allowed origins
+  - Example: `CORS_ORIGINS="http://localhost:9001,https://your-frontend-domain.com"`
+- `MAX_UPLOAD_MB`: max file size in MB (default: `16`)
+- `MAX_DIMENSION`: max width/height before downscaling (default: `2000`)
+
+## API endpoints
+
+- `GET /health` returns `{ "ok": true }`
+- `POST /remove-bg` with multipart `file` returns `image/png`
 
 ## Notes
 
-- Allowed file types: PNG, JPG/JPEG, WEBP.
-- Images larger than `MAX_DIMENSION` are downscaled before processing.
+- Allowed file types: PNG, JPG/JPEG, WEBP
+- Large images are downscaled before processing
